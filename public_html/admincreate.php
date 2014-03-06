@@ -1,3 +1,31 @@
+<?php
+session_start();
+$uid=$_SESSION["userid"];
+$con=mysql_connect("localhost","hiker132_root","jaagastudy77") or die(mysql_error());
+$db=mysql_select_db("hiker132_js") or die(mysql_error());
+
+if(isset($_POST['submit']))
+{
+
+  $title=$_POST['title'];
+  $desc=$_POST['description'];
+  $status=$_POST['status'];
+
+  # code...
+$priority=$_POST['type'];
+ $temp=$_FILES['image']['tmp_name'];
+  $pic="images/".$_FILES['image']['name'];
+  move_uploaded_file($temp,$pic);
+
+$query=mysql_query("insert into issue (title,description,image,priority,uid,status) values ('".$title."','".$desc."','".$pic."','".$priority."','".$uid."','".$status."')") or die(mysql_error());
+
+header("Location:admin-dashboard.php");
+}
+
+
+?>
+
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -36,7 +64,7 @@
         <li><a href="#">Home</a></li>
         <li><a href="#">Issues</a></li>
         <li>
-          <form class="navbar-form navbar-right" role="form">
+          <form class="navbar-form navbar-right" role="form" action="logout.php">
             <button type="submit" class="btn btn-primary">Logout</button>
           </form>
         </li>
@@ -52,7 +80,7 @@
       <div class="col-md-8 coloumnBox">
         <h2>Create An Issue</h2>
         <hr>
-        <form role="form">
+        <form role="form" enctype="multipart/form-data" method="post" action="admincreate.php">
           <div class="form-group">
             <label for="title">Title</label>
             <input type="text" class="form-control" id="title" name="title" placeholder="Enter a title for your issue!">
@@ -69,13 +97,19 @@
           
           <div class="form-group">
             <label for="">Priority of your Issue</label>
-            <select class="form-control">
+            <select class="form-control" name="type">
               <option>Normal</option>
               <option>Important</option>
             </select>
           </div>
-
-          <button type="submit" class="btn btn-success">Submit</button>
+          <div class="form-group">
+            <label for="">Status</label>
+            <select class="form-control" name="status">
+              <option>Clear</option>
+              <option>Unclear</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-success" name="submit">Submit</button>
         </form>
         <p>
           <hr>
