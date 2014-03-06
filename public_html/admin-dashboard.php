@@ -4,8 +4,8 @@ if(!isset($_SESSION['userid'])){
 header ('Location: index.php');
 }
 $uid=$_SESSION['userid'];
-$con=mysql_connect("localhost","hiker132_root","jaagastudy77") or die(mysql_error());
-$db=mysql_select_db("hiker132_js") or die(mysql_error());
+$con=mysql_connect("localhost","","") or die(mysql_error());
+$db=mysql_select_db("") or die(mysql_error());
 $id=$_REQUEST['idd'];
 if(isset($_POST['submit']))
 {
